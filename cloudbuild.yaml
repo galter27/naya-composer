@@ -1,11 +1,22 @@
 steps:
 
-  - name: 'python:3.9'  
+  # Check if the code can be compiled
+  - name: 'python:3.9' 
     entrypoint: 'python'
     args:
       - '-m'
       - 'py_compile'
-      - 'dag.py' 
+      - 'dag.py'
+
+  # Optional - try to run the code
+  - name: 'python:3.9'  
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - | 
+        python -m pip install -r requirements.txt
+        python dag.py
+
 
   # Copy file to DAG bucket
   - name: 'gcr.io/cloud-builders/gcloud'
