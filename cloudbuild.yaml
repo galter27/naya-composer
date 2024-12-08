@@ -32,7 +32,7 @@ steps:
           exit 1;
         fi
         echo "Uploading dag.py as $FILE_NAME";
-        gcloud storage cp dag.py gs://us-central1-naya-8dbd1d56-bucket/dags/$FILE_NAME
+        gcloud storage cp dag.py gs://us-central1-naya-8dbd1d56-bucket/dags/$FILE_NAMEe
 
 substitutions:
   _FILE_NAME: "dag.py"
