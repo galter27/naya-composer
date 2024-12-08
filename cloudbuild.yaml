@@ -24,8 +24,21 @@ steps:
       - 'storage'
       - 'cp'
       - 'dag.py'
-      - 'gs://us-central1-naya-8dbd1d56-bucket/dags/dag.py'
+      - 'gs://us-central1-naya-8dbd1d56-bucket/dags/${_DEST_FILE_NAME}'
 
 
 options:
   logging: CLOUD_LOGGING_ONLY
+
+
+# Specify branch-specific substitutions
+trigger:
+  triggerTemplate:
+    branchName: 'main'
+    substitutions:
+      _DEST_FILE_NAME: 'main.py'
+
+  triggerTemplate2:
+    branchName: 'dev'
+    substitutions:
+      _DEST_FILE_NAME: 'dev.py'
