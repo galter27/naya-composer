@@ -1,0 +1,9 @@
+steps:
+
+  # Copy file to DAG bucket
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'storage'
+      - 'cp'
+      - 'dag.py'
+      - 'gs://us-central1-naya-8dbd1d56-bucket/dag.py'
