@@ -31,7 +31,7 @@ steps:
           echo "Branch not recognized. Exiting.";
           exit 1;
         fi
-        echo "Uploading dag.py in ${_BRANCH_NAME} env
+        echo "Uploading dag.py in ${_BRANCH_NAME} env"
         
 
 substitutions:
