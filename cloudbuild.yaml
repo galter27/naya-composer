@@ -20,25 +20,20 @@ steps:
 
   # Copy file to DAG bucket
   - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'sh'
     args:
-      - 'storage'
-      - 'cp'
-      - 'dag.py'
-      - 'gs://us-central1-naya-8dbd1d56-bucket/dags/${_DEST_FILE_NAME}'
-
+      - '-c'
+      - |
+        if [ "$BRANCH_NAME" = "main" ]; then
+          FILE_NAME="main.py";
+        elif [ "$BRANCH_NAME" = "dev" ]; then
+          FILE_NAME="dev.py";
+        else
+          echo "Branch not recognized. Exiting.";
+          exit 1;
+        fi
+        echo "Uploading $FILE_NAME";
+        gcloud storage cp dag.py gs://us-central1-naya-8dbd1d56-bucket/dags/$FILE_NAME
 
 options:
   logging: CLOUD_LOGGING_ONLY
-
-
-# Specify branch-specific substitutions
-trigger:
-  triggerTemplate:
-    branchName: 'main'
-    substitutions:
-      _DEST_FILE_NAME: 'main.py'
-
-  triggerTemplate2:
-    branchName: 'dev'
-    substitutions:
-      _DEST_FILE_NAME: 'dev.py'
