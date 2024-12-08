@@ -6,4 +6,7 @@ steps:
       - 'storage'
       - 'cp'
       - 'dag.py'
-      - 'gs://us-central1-naya-8dbd1d56-bucket/dag.py'
+      - 'gs://us-central1-naya-8dbd1d56-bucket/dags/dag.py'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
