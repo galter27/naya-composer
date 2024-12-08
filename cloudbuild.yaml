@@ -24,15 +24,15 @@ steps:
       - '-c'
       - |
         if [ "$BRANCH_NAME" = "main" ]; then
-          ${_FILE_NAME}="main.py";
+          gcloud storage cp dag.py gs://us-central1-naya-8dbd1d56-bucket/dags/main.py;
         elif [ "$BRANCH_NAME" = "dev" ]; then
-          ${_FILE_NAME}="dev.py";
+          gcloud storage cp dag.py gs://us-central1-naya-8dbd1d56-bucket/dags/dev.py;
         else
           echo "Branch not recognized. Exiting.";
           exit 1;
         fi
-        echo "Uploading dag.py as ${_FILE_NAME}";
-        gcloud storage cp dag.py gs://us-central1-naya-8dbd1d56-bucket/dags/${_FILE_NAME}
+        echo "Uploading dag.py in ${_BRANCH_NAME} env
+        
 
 substitutions:
   _FILE_NAME: "dag.py"
