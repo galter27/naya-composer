@@ -1,6 +1,6 @@
 steps:
 
-  # Check if the code can be compiled
+  # Step 1: Check if the code can be compiled
   - name: 'python:3.9' 
     entrypoint: 'python'
     args:
@@ -8,7 +8,7 @@ steps:
       - 'py_compile'
       - 'dag.py'
 
-  # Optional - try to run the code
+  # Step 2: Optional - Try to run the code
   - name: 'python:3.9'  
     entrypoint: 'sh'
     args:
@@ -17,15 +17,25 @@ steps:
         python -m pip install -r requirements.txt
         python dag.py
 
-
-  # Copy file to DAG bucket
+  # Step 3: Copy file to DAG bucket
   - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'sh'
     args:
-      - 'storage'
-      - 'cp'
-      - 'dag.py'
-      - 'gs://us-central1-naya-8dbd1d56-bucket/dags/dag.py'
+      - '-c'
+      - |
+        if [ "$BRANCH_NAME" = "main" ]; then
+          gcloud storage cp dag.py gs://us-central1-naya-8dbd1d56-bucket/dags/main.py;
+        elif [ "$BRANCH_NAME" = "dev" ]; then
+          gcloud storage cp dag.py gs://us-central1-naya-8dbd1d56-bucket/dags/dev.py;
+        else
+          echo "Branch not recognized. Exiting.";
+          exit 1;
+        fi
+        echo "Uploading dag.py in ${_BRANCH_NAME} env"
+        
 
+substitutions:
+  _FILE_NAME: "dag.py"
 
 options:
   logging: CLOUD_LOGGING_ONLY
